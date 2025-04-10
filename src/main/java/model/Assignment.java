@@ -54,11 +54,11 @@ public class Assignment {
         this.description = description;
     }
 
-    public Date getDueDate() {
+    public Date getDeadline() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDeadline(Date dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -69,4 +69,5 @@ public class Assignment {
     public void setCourse(Course course) {
         this.course = course;
     }
+
 }

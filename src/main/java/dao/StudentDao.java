@@ -17,6 +17,10 @@ public class StudentDao {
         em.getTransaction().commit();
     }
 
+    public Student findById(int id) {
+        return em.find(Student.class, id);
+    }
+
     public List<Student> getAll() {
         return em.createQuery("SELECT s FROM Student s", Student.class).getResultList();
     }

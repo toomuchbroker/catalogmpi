@@ -17,6 +17,10 @@ public class UserDao {
         em.getTransaction().commit();
     }
 
+    public User findById(int id) {
+        return em.find(User.class, id);
+    }
+
     public List<User> getAll() {
         return em.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
