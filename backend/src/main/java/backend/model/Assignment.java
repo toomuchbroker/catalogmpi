@@ -1,4 +1,4 @@
-package model;
+package backend.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -57,7 +57,8 @@ public class Assignment {
         this.description = description;
     }
 
-    // Getters and setters. Consider renaming these to getDueDate() and setDueDate() for consistency.
+    // Getters and setters. Consider renaming these to getDueDate() and setDueDate()
+    // for consistency.
     public Date getDeadline() {
         return dueDate;
     }

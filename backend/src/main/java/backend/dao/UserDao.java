@@ -1,10 +1,13 @@
-package dao;
+package backend.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import model.User;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import backend.model.User;
+
 import java.util.List;
 
 @Repository

@@ -1,4 +1,4 @@
-package model;
+package backend.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;

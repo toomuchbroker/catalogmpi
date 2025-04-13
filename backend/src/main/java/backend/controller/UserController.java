@@ -1,11 +1,12 @@
-package controller;
+package backend.controller;
 
-import dao.UserDao;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import backend.model.User;
+import backend.dao.UserDao;
 
 import java.util.List;
 
@@ -25,9 +26,10 @@ public class UserController {
 
     // Get user by id
     @GetMapping("/{id}")
+
     public ResponseEntity<User> getUserById(@PathVariable int id) {
         User user = userDao.findById(id);
-        if(user != null) {
+        if (user != null) {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();

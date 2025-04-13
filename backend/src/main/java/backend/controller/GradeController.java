@@ -1,11 +1,12 @@
-package controller;
+package backend.controller;
 
-import dao.GradeDao;
-import model.Grade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import backend.dao.GradeDao;
+import backend.model.Grade;
 
 import java.util.List;
 

@@ -1,18 +1,20 @@
-package controller;
+package backend.controller;
 
-import dao.TeacherDao;
-import model.Teacher;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import backend.model.Teacher;
+import backend.dao.TeacherDao;
 
-@RestController
+import java.util.List;
+ 
+
 @RequestMapping("/api/teachers")
 @CrossOrigin(origins = "http://localhost:4200")  // Adjust the allowed origin as needed for your frontend
-public class TeacherController {
+public class TeacherController { 
 
     @Autowired
     private TeacherDao teacherDao;

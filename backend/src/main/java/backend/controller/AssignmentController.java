@@ -1,11 +1,12 @@
-package controller;
+package backend.controller;
 
-import dao.AssignmentDao;
-import model.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import backend.dao.AssignmentDao;
+import backend.model.Assignment;
 
 import java.util.List;
 
