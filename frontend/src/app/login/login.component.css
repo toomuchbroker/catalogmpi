@@ -1,75 +1,240 @@
-.login-container {
+/* 🌈 Tie-Dye Rainbow Explosion */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    background: conic-gradient(from 0deg,
+            #ff8a80,
+            #ffd180,
+            #ffff8d,
+            #ccff90,
+            #a7ffeb,
+            #80d8ff,
+            #82b1ff,
+            #b388ff,
+            #ea80fc,
+            #ff8a80);
+    background-size: 200% 200%;
+    animation: rainbowSpin 20s linear infinite;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(to right, #fceabb, #f8b500);
-    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    position: relative;
 }
 
-.login-card {
-    background: white;
+@keyframes rainbowSpin {
+    0% {
+        background-position: 0% 50%;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        background-position: 100% 50%;
+        transform: rotate(360deg);
+    }
+}
+
+/* 😀 Smiley background watermark */
+body::before {
+    content: '😄';
+    position: absolute;
+    font-size: 300px;
+    opacity: 0.03;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Container with glow */
+.login-container {
+    z-index: 1;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
 }
 
+/* Neon-glow card */
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6),
+        0 0 60px rgba(255, 200, 255, 0.3),
+        0 0 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.login-card:hover {
+    transform: scale(1.02);
+}
+
+/* Title */
 .login-card h2 {
-    margin-bottom: 1rem;
     text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.4rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #ff4081, #7c4dff);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
+/* Form layout */
 form {
     display: flex;
     flex-direction: column;
 }
 
 label {
-    margin-top: 1rem;
-    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
 }
 
 input {
-    padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: none;
+    background-color: #f0f0f0;
+    margin-bottom: 1.5rem;
     font-size: 1rem;
+    box-shadow: inset 2px 2px 6px #ddd, inset -2px -2px 6px #fff;
+    transition: all 0.3s ease;
 }
 
-button {
-    margin-top: 1.5rem;
-    padding: 0.7rem;
-    background-color: #ff9800;
+input:focus {
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+}
+
+/* Button */
+button[type="submit"] {
+    background: linear-gradient(to right, #ff4081, #7c4dff);
     color: white;
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 0.9rem;
     font-size: 1rem;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
 }
 
-button:hover {
-    background-color: #e68900;
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(124, 77, 255, 0.5);
+}
+
+/* Messages */
+.error-message,
+.success-message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    animation: fadeIn 0.6s ease;
 }
 
 .error-message {
-    color: #b00020;
-    margin-top: 1rem;
-    text-align: center;
-    font-weight: 500;
+    color: #d32f2f;
 }
 
 .success-message {
     color: #2e7d32;
-    margin-top: 1rem;
-    text-align: center;
-    font-weight: 500;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Register link */
 .register-link {
-    margin-top: 1rem;
+    margin-top: 2rem;
     text-align: center;
     font-size: 0.95rem;
+    color: #444;
+}
+
+.register-link a {
+    color: #7c4dff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: #ff4081;
+}
+
+.login-container {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+}
+
+/* 🌈 Color swirl right behind the form */
+.login-container::before {
+    content: '';
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background:
+        radial-gradient(circle at 30% 30%, #ff8a80, transparent 50%),
+        radial-gradient(circle at 70% 30%, #ffd180, transparent 50%),
+        radial-gradient(circle at 50% 60%, #b388ff, transparent 50%),
+        radial-gradient(circle at 60% 70%, #a7ffeb, transparent 50%),
+        radial-gradient(circle at 40% 80%, #ffccbc, transparent 50%);
+    filter: blur(120px);
+    opacity: 0.9;
+    animation: swirlFlow 18s ease-in-out infinite;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+@keyframes swirlFlow {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(-48%, -52%) scale(1.1) rotate(180deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(360deg);
+    }
 }

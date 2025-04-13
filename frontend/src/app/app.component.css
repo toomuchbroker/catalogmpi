@@ -1,0 +1,181 @@
+/* 🌈 GLOBAL RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 💖 APP BACKGROUND */
+body,
+html {
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: conic-gradient(from 90deg,
+            #ff8a80,
+            #ffd180,
+            #ffff8d,
+            #ccff90,
+            #a7ffeb,
+            #80d8ff,
+            #b388ff,
+            #ea80fc,
+            #ff8a80);
+    background-size: 200% 200%;
+    animation: appSwirl 25s linear infinite;
+    min-height: 100vh;
+}
+
+@keyframes appSwirl {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+/* 🌟 GENERAL LAYOUT */
+.app-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* 🧊 GLASSY CARDS */
+.app-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(255, 64, 129, 0.2);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.app-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 30px rgba(186, 104, 200, 0.3);
+}
+
+/* 📌 TITLES */
+h1,
+h2,
+h3 {
+    background: linear-gradient(to right, #ff4081, #7c4dff);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+/* 🧁 BUTTONS */
+button,
+.app-button {
+    background: linear-gradient(to right, #ff4081, #7c4dff);
+    border: none;
+    color: #fff;
+    padding: 0.7rem 1.4rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.3);
+}
+
+button:hover,
+.app-button:hover {
+    background: linear-gradient(to right, #f06292, #9575cd);
+    box-shadow: 0 10px 30px rgba(255, 138, 101, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 🍬 BADGES / TAGS */
+.badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    background: #ffccbc;
+    color: #7c4dff;
+    margin-right: 0.5rem;
+}
+
+/* 📊 TABLES */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.table th {
+    background: #ff80ab;
+    color: white;
+}
+
+.table tr:nth-child(even) {
+    background-color: #fce4ec;
+}
+
+/* ✅ STATUS COLORS */
+.status-pass {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.status-fail {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #fbc02d;
+    font-weight: bold;
+}
+
+/* 🎯 FILTER / INPUTS */
+input,
+select,
+textarea {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: none;
+    background: #f5f5f5;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: 0.3s ease;
+    box-shadow: inset 1px 1px 5px #ddd;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.4);
+}
+
+/* 🥳 LINKS */
+a {
+    color: #7c4dff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #ff4081;
+}
