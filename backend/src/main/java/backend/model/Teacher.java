@@ -1,10 +1,10 @@
-package model;
+package backend.model;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "students")
-public class Student {
+@Table(name = "teachers")
+public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,10 +13,10 @@ public class Student {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Student() {
+    public Teacher() {
     }
 
-    public Student(User user) {
+    public Teacher(User user) {
         this.user = user;
     }
 

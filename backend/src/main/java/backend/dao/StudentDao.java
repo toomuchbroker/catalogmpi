@@ -1,20 +1,24 @@
-package dao;
+package backend.dao;
 
 import jakarta.persistence.EntityManager;
-import model.Student;
+import jakarta.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import backend.model.Student;
+
 import java.util.List;
 
+@Repository
+@Transactional
 public class StudentDao {
+
+    @PersistenceContext
     private EntityManager em;
 
-    public StudentDao(EntityManager em) {
-        this.em = em;
-    }
-
     public void insert(Student student) {
-        em.getTransaction().begin();
         em.persist(student);
-        em.getTransaction().commit();
     }
 
     public Student findById(int id) {

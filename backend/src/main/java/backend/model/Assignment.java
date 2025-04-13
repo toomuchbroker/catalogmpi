@@ -1,4 +1,4 @@
-package model;
+package backend.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -13,6 +13,7 @@ public class Assignment {
     private String title;
     private String description;
 
+    // Maps the dueDate field to the "due_date" column in the database.
     @Column(name = "due_date")
     private Date dueDate;
 
@@ -20,9 +21,11 @@ public class Assignment {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    // Default constructor required by JPA
     public Assignment() {
     }
 
+    // Parameterized constructor for easy instantiation
     public Assignment(String title, String description, Date dueDate, Course course) {
         this.title = title;
         this.description = description;
@@ -54,6 +57,8 @@ public class Assignment {
         this.description = description;
     }
 
+    // Getters and setters. Consider renaming these to getDueDate() and setDueDate()
+    // for consistency.
     public Date getDeadline() {
         return dueDate;
     }
@@ -69,5 +74,4 @@ public class Assignment {
     public void setCourse(Course course) {
         this.course = course;
     }
-
 }

@@ -1,32 +1,28 @@
-package dao;
+package backend.dao;
 
 import jakarta.persistence.EntityManager;
-import model.Assignment;
-import model.Student;
+import jakarta.persistence.PersistenceContext;
 
-import java.util.Date;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import backend.model.Assignment;
+
 import java.util.List;
 
+@Repository
+@Transactional
 public class AssignmentDao {
-    private EntityManager em;
-    private Date deadline;
 
-    public AssignmentDao(EntityManager em) {
-        this.em = em;
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     public void insert(Assignment assignment) {
-        em.getTransaction().begin();
         em.persist(assignment);
-        em.getTransaction().commit();
     }
 
     public Assignment findById(int id) {
         return em.find(Assignment.class, id);
-    }
-
-    public Date getDeadline() {
-        return deadline;
     }
 
     public List<Assignment> getAll() {
