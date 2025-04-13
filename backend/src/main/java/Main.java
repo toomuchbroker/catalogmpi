@@ -1,13 +1,14 @@
-package ro.catalogmpi;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import dao.UserDao;
 import model.User;
 import java.util.List;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 
 @SpringBootApplication(scanBasePackages = {"ro.catalogmpi", "dao"})
+@EntityScan("model") 
 public class Main {
     public static void main(String[] args) {
         // Store the application context returned by SpringApplication.run()
