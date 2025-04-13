@@ -1,20 +1,21 @@
 package dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import model.User;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+@Repository
+@Transactional
 public class UserDao {
+
+    @PersistenceContext
     private EntityManager em;
 
-    public UserDao(EntityManager em) {
-        this.em = em;
-    }
-
     public void insert(User user) {
-        em.getTransaction().begin();
         em.persist(user);
-        em.getTransaction().commit();
     }
 
     public User findById(int id) {

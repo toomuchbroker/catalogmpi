@@ -1,21 +1,21 @@
 package dao;
 
 import jakarta.persistence.EntityManager;
-import model.Student;
+import jakarta.persistence.PersistenceContext;
 import model.Teacher;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+@Repository
+@Transactional
 public class TeacherDao {
+
+    @PersistenceContext
     private EntityManager em;
 
-    public TeacherDao(EntityManager em) {
-        this.em = em;
-    }
-
     public void insert(Teacher teacher) {
-        em.getTransaction().begin();
         em.persist(teacher);
-        em.getTransaction().commit();
     }
 
     public Teacher findById(int id) {

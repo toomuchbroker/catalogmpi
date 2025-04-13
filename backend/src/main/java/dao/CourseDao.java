@@ -1,22 +1,21 @@
 package dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import model.Course;
-import model.Student;
-
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+@Repository
+@Transactional
 public class CourseDao {
+
+    @PersistenceContext
     private EntityManager em;
 
-    public CourseDao(EntityManager em) {
-        this.em = em;
-    }
-
     public void insert(Course course) {
-        em.getTransaction().begin();
         em.persist(course);
-        em.getTransaction().commit();
     }
 
     public Course findById(int id) {

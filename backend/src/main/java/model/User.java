@@ -13,15 +13,18 @@ public class User {
     private String email;
     private String password;
 
+    // Default constructor is required by JPA
     public User() {
     }
 
+    // Parameterized constructor for convenience
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
+    // Getters and setters
     public int getId() {
         return id;
     }
