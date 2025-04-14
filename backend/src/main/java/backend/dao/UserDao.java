@@ -17,6 +17,16 @@ public class UserDao {
     @PersistenceContext
     private EntityManager em;
 
+    public User findByEmailAndPassword(String email, String password) {
+        List<User> result = em
+                .createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class)
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getResultList();
+
+        return result.isEmpty() ? null : result.get(0);
+    }
+
     public void insert(User user) {
         em.persist(user);
     }

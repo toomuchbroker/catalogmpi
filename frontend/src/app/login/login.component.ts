@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-// import { AuthService } from '../services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -17,19 +17,28 @@ export class LoginComponent {
   error = '';
   registeredMessage = false;
 
-  // constructor(private auth: AuthService, private router: Router) {
-  //   const navigation = this.router.getCurrentNavigation();
-  //   this.registeredMessage = !!navigation?.extras?.state?.['registered'];
-  // }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  async onLogin() {
-    // try {
-    //   const user = await this.auth.login(this.email, this.password);
-    //   localStorage.setItem('user', JSON.stringify(user));
-    //   this.router.navigate(['/encrypt']);
-    // } catch (err) {
-    //   this.error = 'Email sau parolă incorecte.';
-    //   setTimeout(() => this.error = '', 5000);
-    // }
+  onLogin() {
+    const body = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.http.post<any>('http://localhost:8080/api/users/login', body).subscribe({
+      next: (response) => {
+        localStorage.setItem('user', JSON.stringify(response));
+
+        if (response.role === 'admin') {
+          this.router.navigate(['/admin-panel']);
+        } else {
+          this.router.navigate(['/signup']);
+        }
+      },
+      error: () => {
+        this.error = 'Email sau parolă incorecte.';
+        setTimeout(() => (this.error = ''), 15000);
+      }
+    });
   }
 }
