@@ -7,8 +7,8 @@ export const routes: Routes = [
 
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'signup', loadComponent: () => import('./signup/signup.component').then(m => m.SignupComponent) },
-    { path: 'admin-panel', loadComponent: () => import('./admin-pannel/admin-pannel.component').then(m => m.AdminPannelComponent) },
+    { path: 'admin-panel', loadComponent: () => import('./admin-panel/admin-panel.component').then(m => m.AdminPanelComponent) },
     //{ path: 'user-panel', loadComponent: () => import('./user-panel/user-panel.component').then(m => m.UserPanelComponent)}
 
-    { path: '**', redirectTo: 'login' }
+    { path: '**', redirectTo: 'login' } //always last, fallout route
 ];

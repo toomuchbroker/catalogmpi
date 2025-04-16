@@ -1,0 +1,61 @@
+<h3>All Users</h3>
+<form autocomplete="off">
+    <input
+        class="form-control mb-3"
+        placeholder="Filter by name, email or role"
+        [(ngModel)]="filter"
+        (input)="filterUsers()"
+        autocomplete="new-password"
+        [ngModelOptions]="{standalone: true}" />
+
+</form>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of filteredUsers">
+            <ng-container *ngIf="editUserId !== user.id; else editMode">
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>••••••••</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1"
+                        (click)="startEdit(user)">Edit</button>
+                    <button class="btn btn-sm btn-danger"
+                        (click)="deleteUser(user.id)">Delete</button>
+                </td>
+            </ng-container>
+
+            <ng-template #editMode>
+                <td><input [(ngModel)]="editedUser.name"
+                        class="form-control" /></td>
+                <td><input [(ngModel)]="editedUser.email"
+                        class="form-control" /></td>
+                <td><input [(ngModel)]="editedUser.password"
+                        class="form-control" /></td>
+                <td>
+                    <select [(ngModel)]="editedUser.role" class="form-select">
+                        <option value="admin">admin</option>
+                        <option value="teacher">teacher</option>
+                        <option value="student">student</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-success me-1"
+                        (click)="saveEdit()">Save</button>
+                    <button class="btn btn-sm btn-secondary"
+                        (click)="cancelEdit()">Cancel</button>
+                </td>
+            </ng-template>
+        </tr>
+    </tbody>
+</table>
