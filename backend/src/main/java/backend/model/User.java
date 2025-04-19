@@ -1,3 +1,4 @@
+
 package backend.model;
 
 import jakarta.persistence.*;
@@ -13,18 +14,18 @@ public class User {
     private String email;
     private String password;
 
-    // Default constructor is required by JPA
+    @Transient
+    private String role; // not stored in table directly
+
     public User() {
     }
 
-    // Parameterized constructor for convenience
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }
@@ -55,5 +56,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

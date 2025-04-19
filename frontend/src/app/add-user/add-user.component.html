@@ -1,0 +1,58 @@
+<h3>Add New User</h3>
+
+<div class="mb-3">
+
+    <label>Name</label>
+    <form autocomplete="off">
+
+        <input
+            [(ngModel)]="newUser.name"
+            [ngModelOptions]="{standalone: true}"
+            class="form-control"
+            placeholder="Full name"
+            autocomplete="off" /></form>
+</div>
+
+<div class="mb-3">
+    <label>Email</label>
+    <form autocomplete="off">
+
+        <input
+            [(ngModel)]="newUser.email"
+            [ngModelOptions]="{standalone: true}"
+            class="form-control"
+            placeholder="Email address"
+            autocomplete="off" /></form>
+</div>
+
+<div class="mb-3">
+    <label>Password</label>
+    <form autocomplete="off">
+
+        <input
+            [(ngModel)]="newUser.password"
+            [ngModelOptions]="{standalone: true}"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            autocomplete="off" /></form>
+</div>
+
+<div class="mb-3">
+    <label>Role</label>
+
+    <select
+        [(ngModel)]="newUser.role"
+        [ngModelOptions]="{standalone: true}"
+        class="form-select"
+        autocomplete="off">
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+    </select>
+</div>
+
+<button class="btn btn-success" (click)="addUser()">Add User</button>
+
+<div class="mt-3 text-success" *ngIf="successMessage">{{ successMessage }}</div>
+<div class="mt-3 text-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
