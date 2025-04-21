@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -17,11 +17,13 @@ export class UserTableComponent implements OnInit {
   editUserId: number | null = null;
   editedUser: any = {};
 
+  @Input() isAdmin: boolean = false;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchUsers();
-    console.log(this.users);
+    console.log(this.isAdmin);
   }
 
   fetchUsers() {
@@ -66,7 +68,7 @@ export class UserTableComponent implements OnInit {
 
   deleteUser(id: number) {
     if (confirm('Are you sure you want to delete this user?')) {
-      this.http.delete(`http://localhost:8080/api/users/${id}`).subscribe({
+      this.http.delete(`http://localhost:8080/api/users/${id}`, { responseType: 'text' }).subscribe({
         next: () => this.fetchUsers(),
         error: err => console.error('Delete failed', err)
       });

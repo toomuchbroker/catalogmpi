@@ -27,12 +27,13 @@
                 <td>{{ user.email }}</td>
                 <td>••••••••</td>
                 <td>{{ user.role }}</td>
-                <td>
+                <td *ngIf="isAdmin">
                     <button class="btn btn-sm btn-primary me-1"
                         (click)="startEdit(user)">Edit</button>
                     <button class="btn btn-sm btn-danger"
                         (click)="deleteUser(user.id)">Delete</button>
                 </td>
+                <td *ngIf="!isAdmin">—</td>
             </ng-container>
 
             <ng-template #editMode>

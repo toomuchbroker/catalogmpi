@@ -19,6 +19,10 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  ngOnInit(): void {
+    localStorage.clear();
+  }
+
   onLogin() {
     const body = {
       email: this.email,
@@ -32,7 +36,8 @@ export class LoginComponent {
         if (response.role === 'admin') {
           this.router.navigate(['/admin-panel']);
         } else {
-          this.router.navigate(['/signup']);
+          console.log("fml");
+          this.router.navigate(['/user-panel']);
         }
       },
       error: () => {

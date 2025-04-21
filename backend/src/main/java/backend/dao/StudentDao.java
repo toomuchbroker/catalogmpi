@@ -1,14 +1,16 @@
 package backend.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.TupleTransformer;
+import org.springframework.stereotype.Repository;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import backend.model.Student;
-
-import java.util.List;
+import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
@@ -17,15 +19,44 @@ public class StudentDao {
     @PersistenceContext
     private EntityManager em;
 
-    public void insert(Student student) {
-        em.persist(student);
+    private static final TupleTransformer<Map<String, Object>> aliasToMapTransformer = (tuple, aliases) -> {
+        Map<String, Object> result = new HashMap<>();
+        for (int i = 0; i < aliases.length; i++) {
+            result.put(aliases[i], tuple[i]);
+        }
+        return result;
+    };
+
+    public List<Map<String, Object>> getEnrollmentsForUser(int userId) {
+        return em.createNativeQuery(
+                "SELECT c.* FROM courses c " +
+                        "JOIN enrollments e ON c.id = e.course_id " +
+                        "WHERE e.student_id = (SELECT id FROM students WHERE user_id = :id)")
+                .setParameter("id", userId)
+                .unwrap(NativeQuery.class)
+                .setTupleTransformer(aliasToMapTransformer)
+                .getResultList();
     }
 
-    public Student findById(int id) {
-        return em.find(Student.class, id);
+    public List<Map<String, Object>> getGradesForUser(int userId) {
+        return em.createNativeQuery(
+                "SELECT g.* FROM grades g " +
+                        "WHERE g.student_id = (SELECT id FROM students WHERE user_id = :id)")
+                .setParameter("id", userId)
+                .unwrap(NativeQuery.class)
+                .setTupleTransformer(aliasToMapTransformer)
+                .getResultList();
     }
 
-    public List<Student> getAll() {
-        return em.createQuery("SELECT s FROM Student s", Student.class).getResultList();
+    public List<Map<String, Object>> getAssignmentsForUser(int userId) {
+        return em.createNativeQuery(
+                "SELECT a.* FROM assignments a " +
+                        "JOIN courses c ON a.course_id = c.id " +
+                        "JOIN enrollments e ON e.course_id = c.id " +
+                        "WHERE e.student_id = (SELECT id FROM students WHERE user_id = :id)")
+                .setParameter("id", userId)
+                .unwrap(NativeQuery.class)
+                .setTupleTransformer(aliasToMapTransformer)
+                .getResultList();
     }
 }
