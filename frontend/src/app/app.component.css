@@ -1,15 +1,10 @@
-/* 🌈 GLOBAL RESET */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* 💖 APP BACKGROUND */
+/* 🌈 Tie-Dye Animated Background */
 body,
 html {
+    margin: 0;
+    padding: 0;
     font-family: 'Segoe UI', sans-serif;
-    color: #333;
+    min-height: 100vh;
     background: conic-gradient(from 90deg,
             #ff8a80,
             #ffd180,
@@ -17,15 +12,19 @@ html {
             #ccff90,
             #a7ffeb,
             #80d8ff,
+            #82b1ff,
             #b388ff,
             #ea80fc,
             #ff8a80);
     background-size: 200% 200%;
-    animation: appSwirl 25s linear infinite;
-    min-height: 100vh;
+    animation: swirl 30s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
 }
 
-@keyframes appSwirl {
+@keyframes swirl {
     0% {
         background-position: 0% 50%;
     }
@@ -35,147 +34,242 @@ html {
     }
 }
 
-/* 🌟 GENERAL LAYOUT */
-.app-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* 😄 Background Emoji Watermark */
+body::before {
+    content: '😄';
+    position: absolute;
+    font-size: 300px;
+    opacity: 0.03;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 💠 Admin Panel Container */
+.container {
+    margin: 3rem auto;
+    width: 70vw;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6),
+        0 0 60px rgba(255, 200, 255, 0.3),
+        0 0 10px rgba(0, 0, 0, 0.05);
     position: relative;
     z-index: 1;
+    overflow: hidden;
 }
 
-/* 🧊 GLASSY CARDS */
-.app-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 0 20px rgba(255, 64, 129, 0.2);
-    margin-bottom: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.app-card:hover {
-    transform: scale(1.01);
-    box-shadow: 0 0 30px rgba(186, 104, 200, 0.3);
-}
-
-/* 📌 TITLES */
-h1,
+/* 🎀 Headings */
 h2,
 h3 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     background: linear-gradient(to right, #ff4081, #7c4dff);
     -webkit-background-clip: text;
     color: transparent;
-    margin-bottom: 1rem;
 }
 
-/* 🧁 BUTTONS */
-button,
-.app-button {
-    background: linear-gradient(to right, #ff4081, #7c4dff);
-    border: none;
-    color: #fff;
-    padding: 0.7rem 1.4rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.3);
-}
-
-button:hover,
-.app-button:hover {
-    background: linear-gradient(to right, #f06292, #9575cd);
-    box-shadow: 0 10px 30px rgba(255, 138, 101, 0.4);
-    transform: translateY(-2px);
-}
-
-/* 🍬 BADGES / TAGS */
-.badge {
-    display: inline-block;
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    background: #ffccbc;
-    color: #7c4dff;
-    margin-right: 0.5rem;
-}
-
-/* 📊 TABLES */
-.table {
+/* 📦 Panel Cards */
+app-user-table,
+app-add-user {
+    display: block;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(124, 77, 255, 0.2);
+    margin: 2rem auto;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+    max-width: 900px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
 }
 
-.table th,
-.table td {
-    padding: 1rem;
+app-user-table:hover,
+app-add-user:hover {
+    transform: scale(1.01);
+}
+
+/* 🧾 Form Fields */
+app-add-user .mb-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+app-add-user label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+    color: #333;
+    width: 100%;
+    max-width: 400px;
     text-align: left;
-    font-size: 0.95rem;
 }
 
-.table th {
-    background: #ff80ab;
-    color: white;
-}
-
-.table tr:nth-child(even) {
-    background-color: #fce4ec;
-}
-
-/* ✅ STATUS COLORS */
-.status-pass {
-    color: #2e7d32;
-    font-weight: bold;
-}
-
-.status-fail {
-    color: #d32f2f;
-    font-weight: bold;
-}
-
-.status-pending {
-    color: #fbc02d;
-    font-weight: bold;
-}
-
-/* 🎯 FILTER / INPUTS */
-input,
-select,
-textarea {
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
+/* ✍️ Inputs & Selects */
+input.form-control,
+select.form-select {
+    padding: 0.75rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 20px;
     border: none;
     background: #f5f5f5;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    box-shadow: inset 2px 2px 6px #ddd, inset -2px -2px 6px #fff;
     transition: 0.3s ease;
-    box-shadow: inset 1px 1px 5px #ddd;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 1rem auto;
+    display: block;
 }
 
 input:focus,
-select:focus,
-textarea:focus {
+select:focus {
+    background: #fff;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.3);
 }
 
-/* 🥳 LINKS */
-a {
-    color: #7c4dff;
-    text-decoration: none;
+/* ✅ Centered Add User Button */
+app-add-user button {
+    width: 100%;
+    max-width: 400px;
+    margin: 1.5rem auto 0 auto;
+    display: block;
+    text-align: center;
+    border: none;
+    border-radius: 30px;
     font-weight: 600;
-    transition: color 0.3s ease;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    background: linear-gradient(to right, #43a047, #66bb6a);
+    color: white;
 }
 
-a:hover {
-    text-decoration: underline;
-    color: #ff4081;
+app-add-user button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+/* 📊 Table Styling */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+    font-size: 0.95rem;
+    background: transparent;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+thead {
+    background: linear-gradient(to right, #ff80ab, #7e57c2);
+    color: #fff;
+    border-radius: 20px;
+}
+
+thead th {
+    padding: 1rem;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+thead th:first-child {
+    border-top-left-radius: 20px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 20px;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+tbody tr {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 14px;
+    transition: transform 0.3s ease;
+}
+
+tbody tr:hover {
+    transform: scale(1.01);
+    background-color: #fce4ec;
+}
+
+tbody td {
+    padding: 1.2rem 1rem;
+    vertical-align: middle;
+}
+
+/* 🧁 Toast Messages */
+.text-success {
+    color: #4caf50;
+    font-weight: 600;
+    text-align: center;
+}
+
+.text-danger {
+    color: #ef5350;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 📱 Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90vw;
+        padding: 2rem 1.5rem;
+    }
+
+    app-user-table,
+    app-add-user {
+        padding: 1.5rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr,
+    tbody td {
+        display: block;
+        width: 100%;
+    }
+
+    tbody td {
+        text-align: left;
+        padding: 0.8rem 1rem;
+        position: relative;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #7c4dff;
+        display: inline-block;
+        margin-right: 1rem;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
 }
