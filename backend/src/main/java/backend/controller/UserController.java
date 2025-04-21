@@ -110,6 +110,18 @@ public class UserController {
         return ResponseEntity.ok(existingUser);
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        User user = userDao.findById(id);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete failed: user not found");
+        }
+
+        userDao.deleteById(id);
+        return ResponseEntity.ok("User deleted successfully.");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         User user = userDao.findByEmailAndPassword(request.getEmail(), request.getPassword());
@@ -155,4 +167,5 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
 }

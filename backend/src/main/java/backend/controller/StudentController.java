@@ -1,17 +1,16 @@
 package backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import backend.dao.StudentDao;
-import backend.model.Student;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/student")
 @CrossOrigin(origins = "http://localhost:4200") // Adjust the allowed origin as needed
 public class StudentController {
 
@@ -19,26 +18,18 @@ public class StudentController {
     private StudentDao studentDao;
 
     // Retrieve all students
-    @GetMapping
-    public List<Student> getAllStudents() {
-        return studentDao.getAll();
+    @GetMapping("/{id}/enrollments")
+    public List<Map<String, Object>> getEnrollments(@PathVariable int id) {
+        return studentDao.getEnrollmentsForUser(id);
     }
 
-    // Retrieve a student by its ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable int id) {
-        Student student = studentDao.findById(id);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{id}/grades")
+    public List<Map<String, Object>> getGrades(@PathVariable int id) {
+        return studentDao.getGradesForUser(id);
     }
 
-    // Insert a new student
-    @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
-        studentDao.insert(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body(student);
+    @GetMapping("/{id}/assignments")
+    public List<Map<String, Object>> getAssignments(@PathVariable int id) {
+        return studentDao.getAssignmentsForUser(id);
     }
 }
