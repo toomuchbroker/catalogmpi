@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { InfoBarComponent } from "../info-bar/info-bar.component";
 
 @Component({
   selector: 'app-user-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, InfoBarComponent],
   templateUrl: './user-panel.component.html',
   styleUrls: ['./user-panel.component.css']
 })
