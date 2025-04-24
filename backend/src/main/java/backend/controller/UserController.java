@@ -9,6 +9,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserDao userDao;
 
@@ -31,14 +36,20 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         List<User> users = userDao.getAll();
-        users.forEach(u -> System.out.println(u.getEmail() + " -> " + u.getRole()));
+        users.forEach(u -> logger.info("Fetched user: {} with role: {}", u.getEmail(), u.getRole()));
         return users;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
         User user = userDao.findById(id);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+        if (user != null) {
+            logger.info("Retrieved user by ID {}: {}", id, user.getEmail());
+            return ResponseEntity.ok(user);
+        } else {
+            logger.warn("User not found with ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -50,14 +61,15 @@ public class UserController {
             String password = userData.get("password");
             String role = userData.get("role");
 
-            System.out.println("CREATE USER - name: " + name + ", email: " + email + ", role: " + role);
+            logger.info("Attempting to create user: {} ({}) with role {}", name, email, role);
 
             if (name == null || email == null || password == null) {
+                logger.warn("Missing required fields for user creation");
                 return ResponseEntity.badRequest().body(null);
             }
 
             if (userDao.findByEmail(email) != null) {
-                System.out.println("User already exists with email: " + email);
+                logger.warn("User already exists with email: {}", email);
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
 
@@ -68,15 +80,15 @@ public class UserController {
             user.setRole(role);
 
             userDao.insert(user);
-
-            System.out.println("New user persisted with ID: " + user.getId());
+            logger.info("New user created with ID: {}", user.getId());
 
             userDao.assignRole(user.getId(), role);
+            logger.info("Assigned role {} to user ID {}", role, user.getId());
 
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error creating user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -86,8 +98,11 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody Map<String, String> userData) {
         User existingUser = userDao.findById(id);
         if (existingUser == null) {
+            logger.warn("User not found for update: ID {}", id);
             return ResponseEntity.notFound().build();
         }
+
+        logger.info("Updating user ID: {}", id);
 
         if (userData.containsKey("name")) {
             existingUser.setName(userData.get("name"));
@@ -105,6 +120,7 @@ public class UserController {
             String role = userData.get("role");
             userDao.assignRole(existingUser.getId(), role);
             existingUser.setRole(role);
+            logger.info("Updated role for user {} to {}", existingUser.getEmail(), role);
         }
 
         return ResponseEntity.ok(existingUser);
@@ -115,57 +131,46 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable int id) {
         User user = userDao.findById(id);
         if (user == null) {
+            logger.warn("Delete failed: user ID {} not found", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete failed: user not found");
         }
 
         userDao.deleteById(id);
+        logger.info("Deleted user ID {}", id);
         return ResponseEntity.ok("User deleted successfully.");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        logger.info("Login attempt for {}", request.getEmail());
+
         User user = userDao.findByEmailAndPassword(request.getEmail(), request.getPassword());
 
         if (user == null) {
+            logger.warn("Failed login attempt for {}", request.getEmail());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
         int userId = user.getId();
         String role = "user";
 
-        boolean isAdmin = !entityManager
-                .createNativeQuery("SELECT * FROM administrators WHERE user_id = :id")
-                .setParameter("id", userId)
-                .getResultList()
-                .isEmpty();
+        boolean isAdmin = !entityManager.createNativeQuery("SELECT * FROM administrators WHERE user_id = :id")
+                .setParameter("id", userId).getResultList().isEmpty();
+        boolean isTeacher = !entityManager.createNativeQuery("SELECT * FROM teachers WHERE user_id = :id")
+                .setParameter("id", userId).getResultList().isEmpty();
+        boolean isStudent = !entityManager.createNativeQuery("SELECT * FROM students WHERE user_id = :id")
+                .setParameter("id", userId).getResultList().isEmpty();
 
-        boolean isTeacher = !entityManager
-                .createNativeQuery("SELECT * FROM teachers WHERE user_id = :id")
-                .setParameter("id", userId)
-                .getResultList()
-                .isEmpty();
-
-        boolean isStudent = !entityManager
-                .createNativeQuery("SELECT * FROM students WHERE user_id = :id")
-                .setParameter("id", userId)
-                .getResultList()
-                .isEmpty();
-
-        if (isAdmin) {
+        if (isAdmin)
             role = "admin";
-        } else if (isTeacher) {
+        else if (isTeacher)
             role = "teacher";
-        } else if (isStudent) {
+        else if (isStudent)
             role = "student";
-        }
 
-        LoginResponse response = new LoginResponse(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                role);
+        logger.info("Login successful: {} (role: {})", user.getEmail(), role);
 
+        LoginResponse response = new LoginResponse(user.getId(), user.getName(), user.getEmail(), role);
         return ResponseEntity.ok(response);
     }
-
 }

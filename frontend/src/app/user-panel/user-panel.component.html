@@ -31,14 +31,16 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Assignment ID</th>
-                    <th>Value</th>
+                    <th>Course</th>
+                    <th>Assignment</th>
+                    <th>Grade</th>
                     <th>Date Assigned</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let g of grades">
-                    <td>{{ g.assignment_id }}</td>
+                    <td>{{ g.course_name }}</td>
+                    <td>{{ g.assignment_title }}</td>
                     <td>{{ g.value }}</td>
                     <td>{{ g.date_assigned }}</td>
                 </tr>

@@ -38,13 +38,17 @@ public class StudentDao {
                 .getResultList();
     }
 
-    public List<Map<String, Object>> getGradesForUser(int userId) {
+    @SuppressWarnings("deprecation")
+    public List<Map<String, Object>> getDetailedGradesForUser(int userId) {
         return em.createNativeQuery(
-                "SELECT g.* FROM grades g " +
+                "SELECT a.title AS assignment_title, c.name AS course_name, g.value, g.date_assigned " +
+                        "FROM grades g " +
+                        "JOIN assignments a ON g.assignment_id = a.id " +
+                        "JOIN courses c ON a.course_id = c.id " +
                         "WHERE g.student_id = (SELECT id FROM students WHERE user_id = :id)")
                 .setParameter("id", userId)
-                .unwrap(NativeQuery.class)
-                .setTupleTransformer(aliasToMapTransformer)
+                .unwrap(org.hibernate.query.NativeQuery.class)
+                .setResultTransformer(org.hibernate.transform.AliasToEntityMapResultTransformer.INSTANCE)
                 .getResultList();
     }
 

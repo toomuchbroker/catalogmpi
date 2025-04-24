@@ -39,7 +39,7 @@ export class UserPanelComponent implements OnInit {
   }
 
   fetchGrades() {
-    this.http.get<any[]>(`http://localhost:8080/api/student/${this.userId}/grades`)
+    this.http.get<any[]>(`http://localhost:8080/api/student/${this.userId}/grades-detailed`)
       .subscribe(data => this.grades = data);
   }
 

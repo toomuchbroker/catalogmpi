@@ -23,9 +23,9 @@ public class StudentController {
         return studentDao.getEnrollmentsForUser(id);
     }
 
-    @GetMapping("/{id}/grades")
-    public List<Map<String, Object>> getGrades(@PathVariable int id) {
-        return studentDao.getGradesForUser(id);
+    @GetMapping("/{id}/grades-detailed")
+    public List<Map<String, Object>> getDetailedGrades(@PathVariable int id) {
+        return studentDao.getDetailedGradesForUser(id);
     }
 
     @GetMapping("/{id}/assignments")
