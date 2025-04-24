@@ -46,7 +46,6 @@ body::before {
     pointer-events: none;
 }
 
-/* 🌟 Container with swirl behind form */
 .login-container {
     position: relative;
     isolation: isolate;
