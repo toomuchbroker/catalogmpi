@@ -32,3 +32,12 @@ td {
     text-align: center;
     padding: 1rem;
 }
+
+.assignment-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.assignment-form input {
+    margin-bottom: 10px;
+}

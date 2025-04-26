@@ -2,10 +2,16 @@ package backend.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
+
+import javax.print.DocFlavor.STRING;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "assignments")
 public class Assignment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,20 +19,18 @@ public class Assignment {
     private String title;
     private String description;
 
-    // Maps the dueDate field to the "due_date" column in the database.
     @Column(name = "due_date")
-    private Date dueDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    // Default constructor required by JPA
     public Assignment() {
     }
 
-    // Parameterized constructor for easy instantiation
-    public Assignment(String title, String description, Date dueDate, Course course) {
+    public Assignment(String title, String description, LocalDate dueDate, Course course) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -57,11 +61,11 @@ public class Assignment {
         this.description = description;
     }
 
-    public Date getDeadline() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDeadline(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -72,4 +76,5 @@ public class Assignment {
     public void setCourse(Course course) {
         this.course = course;
     }
+
 }

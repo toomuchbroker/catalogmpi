@@ -1,6 +1,35 @@
 <div class="admin-section">
     <h3>All Assignments</h3>
 
+    <!-- 📋 Assignment Form -->
+    <form (ngSubmit)="saveAssignment()" class="assignment-form mb-4">
+        <div class="mb-3">
+            <input class="form-control" placeholder="Title"
+                [(ngModel)]="newAssignment.title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" placeholder="Description"
+                [(ngModel)]="newAssignment.description" name="description"
+                required>
+        </div>
+        <div class="mb-3">
+            <input type="date" class="form-control"
+                [(ngModel)]="newAssignment.due_date" name="due_date" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" placeholder="Course ID"
+                [(ngModel)]="newAssignment.course_id" name="course_id" required>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            {{ editingAssignmentId ? '💾 Save Changes' : '➕ Add Assignment' }}
+        </button>
+        <button type="button" class="btn btn-secondary ms-2"
+            (click)="resetForm()" *ngIf="editingAssignmentId">
+            ❌ Cancel
+        </button>
+    </form>
+
+    <!-- 📜 Assignment Table -->
     <table class="table table-bordered table-striped"
         *ngIf="assignments.length > 0; else noAssignments">
         <thead>
@@ -9,7 +38,8 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Due Date</th>
-                <th>Course ID</th>
+                <th>Course</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +47,14 @@
                 <td>{{ a.id }}</td>
                 <td>{{ a.title }}</td>
                 <td>{{ a.description }}</td>
-                <td>{{ a.deadline }}</td>
+                <td>{{ a.dueDate }}</td>
                 <td>{{ a.course?.name }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-2"
+                        (click)="editAssignment(a)">✏️ Edit</button>
+                    <button class="btn btn-sm btn-danger"
+                        (click)="deleteAssignment(a.id)">🗑️ Delete</button>
+                </td>
             </tr>
         </tbody>
     </table>
