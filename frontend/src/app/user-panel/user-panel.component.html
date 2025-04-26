@@ -20,7 +20,7 @@
     <div *ngIf="activeTab === 'enrollments'">
         <h4>Your Courses</h4>
         <ul *ngIf="enrollments.length > 0; else noEnrollments">
-            <li *ngFor="let e of enrollments">Course ID: {{ e.course_id }}</li>
+            <li *ngFor="let e of enrollments">Course Name {{ e.name }}</li>
         </ul>
         <ng-template #noEnrollments><p>No enrollments found.</p></ng-template>
     </div>

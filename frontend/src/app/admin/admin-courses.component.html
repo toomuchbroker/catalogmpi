@@ -1,1 +1,45 @@
-<p>admin-courses works!</p>
+<div class="course-container">
+    <h3 class="text-center mb-4">All Courses</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Teacher</th>
+                <th>Assign Student</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of courses">
+                <td>{{ course.id }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.description }}</td>
+                <td>{{ course.teacher?.user?.name || '—' }}</td>
+                <td>
+                    <div class="d-flex">
+                        <select class="form-select me-2"
+                            [(ngModel)]="selectedStudent[course.id]">
+                            <option [ngValue]="null" disabled selected>Choose
+                                student</option>
+                            <option *ngFor="let student of students"
+                                [value]="student.id">{{ student.name }}</option>
+                        </select>
+                        <button class="btn btn-sm btn-success"
+                            (click)="assignStudentToCourse(course.id)">
+                            ➕ Assign
+                        </button>
+                        <button class="btn btn-sm btn-danger"
+                            (click)="unenrollStudentFromCourse(course.id)">➖
+                            Unassign</button>
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="courses.length === 0" class="text-center text-muted">No courses
+        available.</p>
+</div>

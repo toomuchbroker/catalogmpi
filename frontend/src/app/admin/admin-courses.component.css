@@ -1,0 +1,42 @@
+.course-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(124, 77, 255, 0.15);
+    margin: 2rem auto;
+    max-width: 900px;
+}
+
+h3 {
+    background: linear-gradient(to right, #7c4dff, #ff4081);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table thead {
+    background: linear-gradient(to right, #ff80ab, #7e57c2);
+    color: #fff;
+}
+
+.table tbody tr:hover {
+    background-color: #fce4ec;
+}
+
+select.form-select-sm {
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+button.btn-sm {
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
