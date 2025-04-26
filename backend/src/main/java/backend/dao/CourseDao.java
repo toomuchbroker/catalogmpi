@@ -29,6 +29,17 @@ public class CourseDao {
         return em.createQuery("SELECT c FROM Course c", Course.class).getResultList();
     }
 
+    public Course update(Course course) {
+        return em.merge(course);
+    }
+
+    public void delete(int id) {
+        Course c = em.find(Course.class, id);
+        if (c != null) {
+            em.remove(c);
+        }
+    }
+
     public void enrollStudent(int userId, int courseId) {
 
         Integer studentId = (Integer) em

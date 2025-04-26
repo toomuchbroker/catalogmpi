@@ -1,0 +1,19 @@
+<div class="courses-container">
+    <h3>Your Courses</h3>
+    
+    <!-- Display error message if there is one -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    
+    <!-- Display the list of courses if available -->
+    <ul *ngIf="courses && courses.length > 0; else noCourses">
+      <li *ngFor="let course of courses">
+        <strong>{{ course.name }}</strong>: {{ course.description }}
+      </li>
+    </ul>
+    
+    <!-- Template for no courses found -->
+    <ng-template #noCourses>
+      <p>No courses found.</p>
+    </ng-template>
+  </div>
+  

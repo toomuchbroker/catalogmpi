@@ -1,0 +1,20 @@
+<div class="assignments-container">
+    <h3>Your Assignments</h3>
+    
+    <!-- Display error message if fetching assignments fails -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    
+    <!-- List assignments if available -->
+    <ul *ngIf="assignments && assignments.length > 0; else noAssignments">
+      <li *ngFor="let assignment of assignments">
+        <strong>{{ assignment.title }}</strong>: {{ assignment.description }}<br>
+        Deadline: {{ assignment.deadline }}
+      </li>
+    </ul>
+    
+    <!-- Template to show if no assignments are found -->
+    <ng-template #noAssignments>
+      <p>No assignments found.</p>
+    </ng-template>
+  </div>
+  

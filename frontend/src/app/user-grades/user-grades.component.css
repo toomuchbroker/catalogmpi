@@ -1,0 +1,25 @@
+.grades {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .grades h3 {
+    color: #2c3e50;
+  }
+  
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 8px 0;
+    padding: 6px;
+    border-bottom: 1px solid #ccc;
+  }
+  
