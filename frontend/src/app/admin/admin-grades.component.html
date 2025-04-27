@@ -1,1 +1,103 @@
-<p>admin-grades works!</p>
+<div class="admin-section">
+    <h3>All Grades</h3>
+
+    <table class="table table-bordered table-striped"
+        *ngIf="grades.length > 0; else noGrades">
+        <thead>
+            <tr>
+                <th>Grade ID</th>
+                <th>Assignment</th>
+                <th>Student</th>
+                <th>Value</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let g of grades">
+                <td>{{ g.id }}</td>
+                <td>{{ g.assignment?.title || '—' }}</td>
+                <td>{{ g.student?.user?.name || '—' }}</td>
+                <td>{{ g.value }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-2"
+                        (click)="editGrade(g)">✏️ Edit</button>
+                    <button class="btn btn-sm btn-danger"
+                        (click)="deleteGrade(g.id)">🗑️ Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ng-template #noGrades>
+        <p>No grades found.</p>
+    </ng-template>
+
+    <hr>
+
+    <h4>{{ editingGradeId ? 'Edit Grade' : 'Add New Grade' }}</h4>
+
+    <form (ngSubmit)="saveGrade()" class="mb-3">
+        <div class="mb-2">
+            <input type="number" [(ngModel)]="newGrade.value" name="value"
+                placeholder="Grade Value (0-10)" class="form-control" required>
+        </div>
+
+        <div *ngIf="!editingGradeId">
+            <!-- Assignment dropdown -->
+            <div class="mb-2">
+                <select [(ngModel)]="newGrade.assignmentId" name="assignmentId"
+                    class="form-select" required>
+                    <option [ngValue]="null" disabled selected>Choose
+                        Assignment</option>
+                    <option *ngFor="let assignment of assignments"
+                        [value]="assignment.id">
+                        {{ assignment.title }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Student dropdown -->
+            <div class="mb-2">
+                <select [(ngModel)]="newGrade.studentId" name="studentId"
+                    class="form-select" required>
+                    <option [ngValue]="null" disabled selected>Choose
+                        Student</option>
+                    <option *ngFor="let student of students"
+                        [value]="student.id">
+                        {{ student.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            {{ editingGradeId ? 'Update Grade' : 'Add Grade' }}
+        </button>
+        <button type="button" class="btn btn-secondary ms-2"
+            (click)="resetForm()">Reset</button>
+    </form>
+    <hr>
+
+    <h4>Check Student Average Grade</h4>
+
+    <form (ngSubmit)="getStudentAverage()" class="mb-3">
+        <div class="mb-2">
+            <select class="form-select" [(ngModel)]="studentIdForAverage"
+                name="studentIdForAverage" required>
+                <option [ngValue]="null" disabled selected>Select a
+                    Student</option>
+                <option *ngFor="let student of students" [value]="student.id">
+                    {{ student.name }}
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-info">🔍 Get Average</button>
+    </form>
+
+    <div *ngIf="studentAverage !== null" class="alert alert-primary mt-3">
+        Average Grade for Student {{ getStudentNameById(studentIdForAverage)
+        }}:
+        <strong>{{ studentAverage | number: '1.2-2' }}</strong>
+    </div>
+
+</div>

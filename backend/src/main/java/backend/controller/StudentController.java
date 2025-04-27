@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import backend.dao.StudentDao;
+import backend.model.Student;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,9 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200") // Adjust the allowed origin as needed
 public class StudentController {
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private StudentDao studentDao;
 
@@ -21,6 +27,10 @@ public class StudentController {
     @GetMapping("/{id}/enrollments")
     public List<Map<String, Object>> getEnrollments(@PathVariable int id) {
         return studentDao.getEnrollmentsForUser(id);
+    }
+
+    public Student findStudentById(int id) {
+        return em.find(Student.class, id);
     }
 
     @GetMapping("/{id}/grades-detailed")

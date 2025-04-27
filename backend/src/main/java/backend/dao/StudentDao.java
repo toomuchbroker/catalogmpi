@@ -63,4 +63,8 @@ public class StudentDao {
                 .setTupleTransformer(aliasToMapTransformer)
                 .getResultList();
     }
+
+    public backend.model.Student findById(int id) {
+        return em.find(backend.model.Student.class, id);
+    }
 }
