@@ -20,7 +20,7 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    localStorage.clear();
+    sessionStorage.clear();
   }
 
   isEmailValid(): boolean {
@@ -31,7 +31,7 @@ export class LoginComponent {
     return this.isEmailValid() && this.password.trim().length >= 6;
   }
 
-  onLogin() {
+  onLogin(): void {
     if (!this.isFormValid()) {
       this.error = 'Email invalid sau parolă prea scurtă.';
       setTimeout(() => (this.error = ''), 5000);
@@ -42,7 +42,7 @@ export class LoginComponent {
 
     this.http.post<any>('http://localhost:8080/api/users/login', body).subscribe({
       next: (response) => {
-        localStorage.setItem('user', JSON.stringify(response));
+        sessionStorage.setItem('user', JSON.stringify(response));
         this.router.navigate([response.role === 'admin' ? '/admin-panel' : '/user-panel']);
       },
       error: () => {

@@ -1,16 +1,16 @@
 package backend.dao;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import backend.model.Student;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.TupleTransformer;
 import org.springframework.stereotype.Repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -38,7 +38,6 @@ public class StudentDao {
                 .getResultList();
     }
 
-    @SuppressWarnings("deprecation")
     public List<Map<String, Object>> getDetailedGradesForUser(int userId) {
         return em.createNativeQuery(
                 "SELECT a.title AS assignment_title, c.name AS course_name, g.value, g.date_assigned " +
@@ -47,8 +46,8 @@ public class StudentDao {
                         "JOIN courses c ON a.course_id = c.id " +
                         "WHERE g.student_id = (SELECT id FROM students WHERE user_id = :id)")
                 .setParameter("id", userId)
-                .unwrap(org.hibernate.query.NativeQuery.class)
-                .setResultTransformer(org.hibernate.transform.AliasToEntityMapResultTransformer.INSTANCE)
+                .unwrap(NativeQuery.class)
+                .setTupleTransformer(aliasToMapTransformer)
                 .getResultList();
     }
 
@@ -62,5 +61,9 @@ public class StudentDao {
                 .unwrap(NativeQuery.class)
                 .setTupleTransformer(aliasToMapTransformer)
                 .getResultList();
+    }
+
+    public Student findById(int id) {
+        return em.find(Student.class, id);
     }
 }

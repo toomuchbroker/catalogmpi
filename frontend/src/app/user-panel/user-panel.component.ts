@@ -22,7 +22,7 @@ export class UserPanelComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
       this.userId = this.user.id;
@@ -36,6 +36,9 @@ export class UserPanelComponent implements OnInit {
   fetchEnrollments() {
     this.http.get<any[]>(`http://localhost:8080/api/student/${this.userId}/enrollments`)
       .subscribe(data => this.enrollments = data);
+
+    console.log(this.enrollments);
+    console.log(this.userId);
   }
 
   fetchGrades() {

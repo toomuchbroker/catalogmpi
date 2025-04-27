@@ -1,0 +1,16 @@
+<div class="assignments-container">
+  <h3>Your Assignments</h3>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <ul *ngIf="assignments && assignments.length > 0; else noAssignments">
+    <li *ngFor="let assignment of assignments">
+      <strong>{{ assignment.title }}</strong>: {{ assignment.description }}<br>
+      Deadline: {{ assignment.deadline }}
+    </li>
+  </ul>
+
+  <ng-template #noAssignments>
+    <p>No assignments found.</p>
+  </ng-template>
+</div>

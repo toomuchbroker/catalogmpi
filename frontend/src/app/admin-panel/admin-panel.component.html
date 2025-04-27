@@ -1,8 +1,32 @@
 <app-info-bar></app-info-bar>
+
 <div class="container mt-4">
     <h2 class="mb-4 text-center">Admin Panel</h2>
 
-    <div class="row">
+    <div class="btn-group mb-3" role="group">
+        <button class="btn"
+            [ngClass]="{ 'btn-primary': activeTab === 'users', 'btn-outline-primary': activeTab !== 'users' }"
+            (click)="activeTab = 'users'">
+            Users
+        </button>
+        <button class="btn"
+            [ngClass]="{ 'btn-primary': activeTab === 'courses', 'btn-outline-primary': activeTab !== 'courses' }"
+            (click)="activeTab = 'courses'">
+            Courses
+        </button>
+        <button class="btn"
+            [ngClass]="{ 'btn-primary': activeTab === 'assignments', 'btn-outline-primary': activeTab !== 'assignments' }"
+            (click)="activeTab = 'assignments'">
+            Assignments
+        </button>
+        <button class="btn"
+            [ngClass]="{ 'btn-primary': activeTab === 'grades', 'btn-outline-primary': activeTab !== 'grades' }"
+            (click)="activeTab = 'grades'">
+            Grades
+        </button>
+    </div>
+
+    <div *ngIf="activeTab === 'users'" class="row">
         <div class="col-md-8">
             <app-user-table [isAdmin]="true"></app-user-table>
         </div>
@@ -10,4 +34,9 @@
             <app-add-user></app-add-user>
         </div>
     </div>
+
+    <app-admin-courses *ngIf="activeTab === 'courses'"></app-admin-courses>
+    <app-admin-assignments
+        *ngIf="activeTab === 'assignments'"></app-admin-assignments>
+    <app-admin-grades *ngIf="activeTab === 'grades'"></app-admin-grades>
 </div>

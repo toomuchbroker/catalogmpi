@@ -15,7 +15,7 @@ public class User {
     private String password;
 
     @Transient
-    private String role; // not stored in table directly
+    private String role;
 
     public User() {
     }

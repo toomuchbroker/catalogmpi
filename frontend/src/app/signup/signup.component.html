@@ -1,6 +1,6 @@
 <div class="login-container">
     <div class="login-card">
-        <h2 class="text-center">Creare cont</h2>
+        <h2>Creare cont</h2>
 
         <form (ngSubmit)="onSignup()" #signupForm="ngForm">
             <label for="fullName">Nume complet</label>
@@ -10,7 +10,6 @@
                 name="fullName"
                 [(ngModel)]="fullName"
                 required
-                class="form-control"
                 placeholder="Numele complet" />
 
             <label for="email">Email</label>
@@ -20,7 +19,6 @@
                 name="email"
                 [(ngModel)]="email"
                 required
-                class="form-control"
                 placeholder="Email" />
 
             <label for="password">Parolă</label>
@@ -30,20 +28,18 @@
                 name="password"
                 [(ngModel)]="password"
                 required
-                class="form-control"
                 placeholder="Parolă"
                 autocomplete="new-password" />
 
             <div *ngIf="errorMessage" class="error-message">{{ errorMessage
                 }}</div>
 
-            <button type="submit" [disabled]="signupForm.invalid">
-                Creează cont
-            </button>
+            <button type="submit" [disabled]="signupForm.invalid">Creează
+                cont</button>
         </form>
 
         <div class="register-link">
-            Ai deja un cont?<a routerLink="/login">Autentifică-te</a>
+            Ai deja un cont? <a routerLink="/login">Autentifică-te</a>
         </div>
     </div>
 </div>

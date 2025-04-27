@@ -1,0 +1,18 @@
+<div class="grades">
+  <h3>Your Grades</h3>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <ul *ngIf="grades && grades.length > 0; else noGrades">
+    <li *ngFor="let grade of grades">
+      Grade: {{ grade.value }} — assigned on {{ grade.dateAssigned }}
+      <span *ngIf="grade.assignment">
+        (For: {{ grade.assignment.title }})
+      </span>
+    </li>
+  </ul>
+
+  <ng-template #noGrades>
+    <p>No grades found.</p>
+  </ng-template>
+</div>

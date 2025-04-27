@@ -273,3 +273,46 @@ tbody td {
         margin-top: 0.5rem;
     }
 }
+
+/* ───── PATCH: clearer fields & button ───── */
+
+.add-course { position: relative; z-index: 0; }
+.add-course::before { z-index: -1; }
+
+.add-course input,
+.add-course textarea,
+.add-course select {
+  background:#ffffff;
+  border:2px solid var(--border);
+  border-radius:var(--radius-md);
+  width:100%;
+  padding:.6rem .9rem;
+  font-size:.95rem;
+  box-sizing:border-box;
+}
+
+.add-course input:focus,
+.add-course textarea:focus,
+.add-course select:focus {
+  border-color:var(--primary-from);
+  box-shadow:0 0 5px 1px rgba(124,77,255,.25);
+  outline:none;
+}
+
+.form-field{margin-bottom:1.15rem;}
+
+.btn-create{
+  display:block;
+  margin-left:auto;
+  background:linear-gradient(135deg,var(--primary-from),var(--primary-to));
+  color:#fff;
+  border:none;
+  padding:.6rem 2rem;
+  font-weight:600;
+  border-radius:var(--radius-md);
+  transition:transform var(--transition),box-shadow var(--transition);
+}
+.btn-create:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(124,77,255,.35);
+}

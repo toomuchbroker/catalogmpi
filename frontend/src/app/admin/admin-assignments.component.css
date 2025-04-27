@@ -1,0 +1,43 @@
+.admin-section {
+    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(124, 77, 255, 0.1);
+}
+
+h3 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #ff4081, #7c4dff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.table {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+thead {
+    background: linear-gradient(to right, #80d8ff, #7e57c2);
+    color: white;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 1rem;
+}
+
+.assignment-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.assignment-form input {
+    margin-bottom: 10px;
+}

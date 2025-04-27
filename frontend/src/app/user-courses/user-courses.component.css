@@ -1,0 +1,26 @@
+.courses-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.courses-container h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 5px;
+}
