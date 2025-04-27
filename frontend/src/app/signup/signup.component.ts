@@ -15,25 +15,13 @@ export class SignupComponent {
   fullName = '';
   email = '';
   password = '';
-  role = 'student';
   errorMessage = '';
   successMessage = '';
 
   constructor(private http: HttpClient, private router: Router) { }
 
   onSignup(): void {
-    if (!this.fullName.trim() || !this.email.trim() || !this.password.trim()) {
-      this.errorMessage = 'Te rugăm să completezi toate câmpurile.';
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
-      this.errorMessage = 'Email-ul introdus nu este valid.';
-      return;
-    }
-
-    if (this.password.length < 6) {
-      this.errorMessage = 'Parola trebuie să aibă cel puțin 6 caractere.';
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -41,7 +29,7 @@ export class SignupComponent {
       name: this.fullName,
       email: this.email,
       password: this.password,
-      role: this.role
+      role: 'student'
     };
 
     this.http.post('http://localhost:8080/api/users', user).subscribe({
@@ -55,5 +43,25 @@ export class SignupComponent {
         this.errorMessage = err.error?.message || 'Eroare la crearea contului.';
       }
     });
+  }
+
+  private isFormValid(): boolean {
+    if (!this.fullName.trim() || !this.email.trim() || !this.password.trim()) {
+      this.errorMessage = 'Te rugăm să completezi toate câmpurile.';
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+      this.errorMessage = 'Email-ul introdus nu este valid.';
+      return false;
+    }
+
+    if (this.password.length < 6) {
+      this.errorMessage = 'Parola trebuie să aibă cel puțin 6 caractere.';
+      return false;
+    }
+
+    this.errorMessage = '';
+    return true;
   }
 }

@@ -11,25 +11,15 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-courses.component.css']
 })
 export class AdminCoursesComponent implements OnInit {
-
-  /* ------------ DATA ------------ */
-
-  courses: any[]   = [];
-  users:   any[]   = [];
-  students:any[]   = [];
-  teachers:any[]   = [];                // <- teachers for “new course” dropdown
-
+  courses: any[] = [];
+  users: any[] = [];
+  students: any[] = [];
+  teachers: any[] = [];
   selectedStudent: { [courseId: number]: number | undefined } = {};
-
-  /* ------------ NEW-COURSE FORM ------------ */
-
   newCourse = { name: '', description: '', teacherId: null as number | null };
-
-  /* ------------ EDIT CACHE ------------ */
-
   edit: { [id: number]: { name: string; description: string } } = {};
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchCourses();
@@ -37,38 +27,27 @@ export class AdminCoursesComponent implements OnInit {
     this.fetchTeachers();
   }
 
-  /* ---------------------------- LOAD ---------------------------- */
-
   fetchCourses() {
-    this.http.get<any[]>('http://localhost:8080/api/courses')
-             .subscribe({
-               next: data => (this.courses = data),
-               error: err  => console.error('Error fetching courses', err)
-             });
+    this.http.get<any[]>('http://localhost:8080/api/courses').subscribe({
+      next: data => (this.courses = data)
+    });
   }
 
   fetchUsers() {
-    this.http.get<any[]>('http://localhost:8080/api/users')
-             .subscribe({
-               next: data => {
-                 this.users    = data;
-                 this.students = data.filter(u => u.role === 'student');
-               },
-               error: err => console.error('Error fetching users', err)
-             });
+    this.http.get<any[]>('http://localhost:8080/api/users').subscribe({
+      next: data => {
+        this.users = data;
+        this.students = data.filter(u => u.role === 'student');
+      }
+    });
   }
 
   fetchTeachers() {
-    this.http.get<any[]>('http://localhost:8080/api/teachers')
-             .subscribe({
-               next: data => (this.teachers = data),
-               error: err  => console.error('Error fetching teachers', err)
-             });
+    this.http.get<any[]>('http://localhost:8080/api/teachers').subscribe({
+      next: data => (this.teachers = data)
+    });
   }
 
-  /* ------------------------- COURSE CRUD ------------------------ */
-
-  /** Create */
   createCourse() {
     const { name, description, teacherId } = this.newCourse;
     if (!name || !teacherId) return;
@@ -81,22 +60,18 @@ export class AdminCoursesComponent implements OnInit {
       next: () => {
         this.newCourse = { name: '', description: '', teacherId: null };
         this.fetchCourses();
-      },
-      error: err => console.error('Error creating course', err)
+      }
     });
   }
 
-  /** Enter edit mode */
   startEdit(c: any) {
     this.edit[c.id] = { name: c.name, description: c.description };
   }
 
-  /** Cancel edit */
   cancelEdit(id: number) {
     delete this.edit[id];
   }
 
-  /** Save edit */
   saveEdit(c: any) {
     const draft = this.edit[c.id];
     this.http.put(`http://localhost:8080/api/courses/${c.id}`, {
@@ -107,22 +82,16 @@ export class AdminCoursesComponent implements OnInit {
       next: () => {
         delete this.edit[c.id];
         this.fetchCourses();
-      },
-      error: err => console.error('Error updating course', err)
+      }
     });
   }
 
-  /** Delete */
   deleteCourse(id: number) {
     if (!confirm('Delete this course?')) return;
-    this.http.delete(`http://localhost:8080/api/courses/${id}`)
-             .subscribe({
-               next: () => this.fetchCourses(),
-               error: err => console.error('Error deleting course', err)
-             });
+    this.http.delete(`http://localhost:8080/api/courses/${id}`).subscribe({
+      next: () => this.fetchCourses()
+    });
   }
-
-  /* --------------------- ENROL / UNENROL ------------------------ */
 
   assignStudentToCourse(courseId: number) {
     const studentId = this.selectedStudent[courseId];
@@ -132,8 +101,7 @@ export class AdminCoursesComponent implements OnInit {
       { studentId, courseId },
       { responseType: 'text' }
     ).subscribe({
-      next: () => alert(`Student assigned to course ${courseId}!`),
-      error: err => console.error('Error assigning student:', err)
+      next: () => alert(`Student assigned to course ${courseId}!`)
     });
   }
 
@@ -148,8 +116,7 @@ export class AdminCoursesComponent implements OnInit {
       next: () => {
         alert(`❌ Student removed from course ${courseId}!`);
         this.selectedStudent[courseId] = undefined;
-      },
-      error: err => console.error('Error unenrolling student:', err)
+      }
     });
   }
 }

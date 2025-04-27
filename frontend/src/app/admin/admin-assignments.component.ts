@@ -12,27 +12,37 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminAssignmentsComponent implements OnInit {
   assignments: any[] = [];
+  courses: any[] = [];
+
   newAssignment = {
     title: '',
     description: '',
     due_date: '',
     course_id: ''
   };
+
   editingAssignmentId: number | null = null;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchAssignments();
+    this.fetchCourses();
   }
 
   fetchAssignments() {
     this.http.get<any[]>('http://localhost:8080/api/assignments').subscribe({
       next: data => {
         this.assignments = data;
-        console.log('Assignments:', this.assignments);
-      },
-      error: err => console.error('Error fetching assignments', err)
+      }
+    });
+  }
+
+  fetchCourses() {
+    this.http.get<any[]>('http://localhost:8080/api/courses').subscribe({
+      next: data => {
+        this.courses = data;
+      }
     });
   }
 
@@ -49,10 +59,10 @@ export class AdminAssignmentsComponent implements OnInit {
     const preparedAssignment = {
       title: this.newAssignment.title,
       description: this.newAssignment.description,
-      dueDate: this.formatDate(this.newAssignment.due_date), // CAMELCASE
+      dueDate: this.formatDate(this.newAssignment.due_date),
       course: this.newAssignment.course_id
-        ? { id: Number(this.newAssignment.course_id) } // dacă ai ales un curs
-        : null // dacă nu ai ales nimic
+        ? { id: Number(this.newAssignment.course_id) }
+        : null
     };
 
     const request = this.editingAssignmentId
@@ -64,9 +74,7 @@ export class AdminAssignmentsComponent implements OnInit {
         alert(this.editingAssignmentId ? '✅ Assignment updated!' : '✅ Assignment added!');
         this.resetForm();
         this.fetchAssignments();
-        console.log(preparedAssignment);
-      },
-      error: err => console.error('Error saving assignment', err)
+      }
     });
   }
 
@@ -75,7 +83,7 @@ export class AdminAssignmentsComponent implements OnInit {
     this.newAssignment = {
       title: a.title,
       description: a.description,
-      due_date: this.formatDate(a.due_date),
+      due_date: this.formatDate(a.dueDate),
       course_id: a.course?.id || ''
     };
   }
@@ -86,8 +94,7 @@ export class AdminAssignmentsComponent implements OnInit {
         next: () => {
           alert('🗑️ Assignment deleted!');
           this.fetchAssignments();
-        },
-        error: err => console.error('Error deleting assignment', err)
+        }
       });
     }
   }

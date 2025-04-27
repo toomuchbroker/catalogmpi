@@ -2,7 +2,7 @@ package backend.dao;
 
 import backend.model.Teacher;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;      
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ public class TeacherDao {
 
     public List<Teacher> getAll() {
         return em.createQuery("SELECT t FROM Teacher t", Teacher.class)
-                 .getResultList();
+                .getResultList();
     }
 
     public Teacher findByUserId(Integer userId) {
@@ -34,8 +34,8 @@ public class TeacherDao {
             return em.createQuery(
                     "SELECT t FROM Teacher t WHERE t.user.id = :uid",
                     Teacher.class)
-                     .setParameter("uid", userId)
-                     .getSingleResult();
+                    .setParameter("uid", userId)
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

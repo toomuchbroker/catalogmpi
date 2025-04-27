@@ -1,18 +1,20 @@
 package backend.dao;
 
+import backend.model.Course;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import backend.model.Course;
 
 import java.util.List;
 
 @Repository
 @Transactional
 public class CourseDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(CourseDao.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -34,29 +36,27 @@ public class CourseDao {
     }
 
     public void delete(int id) {
-        Course c = em.find(Course.class, id);
-        if (c != null) {
-            em.remove(c);
+        Course course = em.find(Course.class, id);
+        if (course != null) {
+            em.remove(course);
         }
     }
 
     public void enrollStudent(int userId, int courseId) {
-
         Integer studentId = (Integer) em
                 .createNativeQuery("SELECT id FROM students WHERE user_id = :userId")
                 .setParameter("userId", userId)
                 .getSingleResult();
 
-        System.out.println(studentId);
-
         em.createNativeQuery("INSERT INTO enrollments (student_id, course_id) VALUES (:studentId, :courseId)")
                 .setParameter("studentId", studentId)
                 .setParameter("courseId", courseId)
                 .executeUpdate();
+
+        logger.info("Student with id {} enrolled in course id {}", studentId, courseId);
     }
 
     public void unenrollStudent(int userId, int courseId) {
-
         Integer studentId = (Integer) em
                 .createNativeQuery("SELECT id FROM students WHERE user_id = :userId")
                 .setParameter("userId", userId)
@@ -66,6 +66,7 @@ public class CourseDao {
                 .setParameter("courseId", courseId)
                 .setParameter("studentId", studentId)
                 .executeUpdate();
-    }
 
+        logger.info("Student with id {} unenrolled from course id {}", studentId, courseId);
+    }
 }

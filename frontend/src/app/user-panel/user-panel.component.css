@@ -1,11 +1,10 @@
-/* 🌟 Container Style Matching Theme */
-.container {
+.user-panel-container {
     margin: 3rem auto;
     width: 90%;
-    max-width: fit-content;
+    max-width: 1100px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 24px;
-    padding: 6rem;
+    padding: 4rem;
     box-shadow: 0 0 25px rgba(255, 255, 255, 0.6),
         0 0 60px rgba(255, 200, 255, 0.3),
         0 0 10px rgba(0, 0, 0, 0.05);
@@ -13,7 +12,6 @@
     z-index: 1;
 }
 
-/* 👋 Greeting */
 h2 {
     text-align: center;
     font-size: 2.5rem;
@@ -24,7 +22,6 @@ h2 {
     font-weight: bold;
 }
 
-/* 🧭 Navigation Button Group */
 .btn-group {
     display: flex;
     justify-content: center;
@@ -57,7 +54,6 @@ h2 {
     transform: scale(1.05);
 }
 
-/* 📚 Section Headings */
 h4 {
     font-size: 1.5rem;
     color: #4a148c;
@@ -65,7 +61,6 @@ h4 {
     text-align: center;
 }
 
-/* 📋 Assignment and Enrollment Lists */
 ul {
     list-style: none;
     padding-left: 0;
@@ -78,9 +73,13 @@ li {
     margin-bottom: 10px;
     font-size: 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: background 0.3s ease;
 }
 
-/* 🧾 Grade Table */
+li:hover {
+    background: #e1bee7;
+}
+
 .table {
     border-radius: 20px;
     overflow: hidden;
@@ -99,21 +98,19 @@ li {
     vertical-align: middle;
 }
 
-/* 🚫 Empty States */
 p {
     text-align: center;
     font-style: italic;
     color: #666;
 }
 
-/* 📱 Responsive */
 @media (max-width: 768px) {
     .btn-group {
         flex-direction: column;
         gap: 0.75rem;
     }
 
-    .container {
+    .user-panel-container {
         padding: 2rem 1.5rem;
     }
 

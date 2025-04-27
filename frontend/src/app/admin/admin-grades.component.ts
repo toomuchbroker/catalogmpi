@@ -15,17 +15,15 @@ export class AdminGradesComponent implements OnInit {
   assignments: any[] = [];
   students: any[] = [];
 
-
   newGrade = {
     value: '',
     assignmentId: '',
     studentId: ''
   };
-  editingGradeId: number | null = null;
 
+  editingGradeId: number | null = null;
   studentIdForAverage: number | null = null;
   studentAverage: number | null = null;
-
 
   constructor(private http: HttpClient) { }
 
@@ -35,18 +33,15 @@ export class AdminGradesComponent implements OnInit {
     this.fetchStudents();
   }
 
-
   fetchGrades() {
     this.http.get<any[]>('http://localhost:8080/api/grades').subscribe({
-      next: data => this.grades = data,
-      error: err => console.error('Error fetching grades', err)
+      next: data => this.grades = data
     });
   }
 
   fetchAssignments() {
     this.http.get<any[]>('http://localhost:8080/api/assignments').subscribe({
-      next: data => this.assignments = data,
-      error: err => console.error('Error fetching assignments', err)
+      next: data => this.assignments = data
     });
   }
 
@@ -54,12 +49,9 @@ export class AdminGradesComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8080/api/users').subscribe({
       next: users => {
         this.students = users.filter(u => u.role === 'student');
-        console.log(this.students);
-      },
-      error: err => console.error('Error fetching students', err)
+      }
     });
   }
-
 
   saveGrade() {
     const preparedGrade = {
@@ -67,8 +59,6 @@ export class AdminGradesComponent implements OnInit {
       assignmentId: this.newGrade.assignmentId,
       studentId: this.newGrade.studentId
     };
-
-    console.log(preparedGrade);
 
     const request = this.editingGradeId
       ? this.http.put(`http://localhost:8080/api/grades/${this.editingGradeId}`, preparedGrade, { responseType: 'text' })
@@ -79,8 +69,7 @@ export class AdminGradesComponent implements OnInit {
         alert(this.editingGradeId ? '✅ Grade updated!' : '✅ Grade added!');
         this.resetForm();
         this.fetchGrades();
-      },
-      error: err => console.error('Error saving grade', err)
+      }
     });
   }
 
@@ -98,15 +87,13 @@ export class AdminGradesComponent implements OnInit {
     return student ? student.user?.name : `ID ${id}`;
   }
 
-
   deleteGrade(id: number) {
     if (confirm('❗ Are you sure you want to delete this grade?')) {
       this.http.delete(`http://localhost:8080/api/grades/${id}`, { responseType: 'text' }).subscribe({
         next: () => {
           alert('🗑️ Grade deleted!');
           this.fetchGrades();
-        },
-        error: err => console.error('Error deleting grade', err)
+        }
       });
     }
   }
@@ -123,19 +110,14 @@ export class AdminGradesComponent implements OnInit {
   getStudentAverage() {
     if (!this.studentIdForAverage) return;
 
-    console.log(this.studentIdForAverage);
-
     this.http.get<number>(`http://localhost:8080/api/grades/average/${this.studentIdForAverage}`)
       .subscribe({
         next: avg => {
           this.studentAverage = avg;
-          console.log(`Average for student ${this.studentIdForAverage}:`, avg);
         },
-        error: err => {
-          console.error('Error fetching average', err);
+        error: () => {
           this.studentAverage = null;
         }
       });
   }
-
 }

@@ -36,13 +36,10 @@ export class AddUserComponent {
         this.newUser = { name: '', email: '', password: '', role: 'student' };
         window.location.reload();
       },
-      error: err => {
-        console.error('Add failed', err);
+      error: () => {
         this.successMessage = '';
         this.errorMessage = 'Failed to add user.';
       }
     });
-
-
   }
 }

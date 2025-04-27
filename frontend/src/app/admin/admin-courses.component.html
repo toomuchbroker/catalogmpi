@@ -1,92 +1,96 @@
 <div class="course-container">
 
-    <!-- █  ADD NEW COURSE  █ -->
-    <section class="add-card">
-      <h5>Add new course</h5>
-  
-      <div class="field">
-        <label for="title">Course title</label>
-        <input id="title" type="text" [(ngModel)]="newCourse.name" />
-      </div>
-  
-      <div class="field">
-        <label for="descr">Description</label>
-        <textarea id="descr" rows="3" [(ngModel)]="newCourse.description"></textarea>
-      </div>
-  
-      <div class="field">
-        <label for="teacher">Select teacher</label>
-        <select id="teacher" [(ngModel)]="newCourse.teacherId">
-          <option [ngValue]="null" disabled selected>Select teacher…</option>
-          <option *ngFor="let t of teachers" [ngValue]="t.id">
-            {{ t.user?.name || ('Teacher ' + t.id) }}
-          </option>
-        </select>
-      </div>
-  
-      <button class="btn-create"
-              [disabled]="!newCourse.name || !newCourse.teacherId"
-              (click)="createCourse()">
-        Create
-      </button>
-    </section>
-  
-    <!-- █  COURSES TABLE  █ -->
-    <h3>All Courses</h3>
-  
-    <table class="course-table">
-      <thead>
-        <tr>
-          <th>ID</th><th>Title</th><th>Description</th>
-          <th>Teacher</th><th>Actions</th><th>Assign&nbsp;Student</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of courses">
-          <td>{{ c.id }}</td>
-  
-          <!-- title -->
-          <td *ngIf="!edit[c.id]">{{ c.name }}</td>
-          <td *ngIf="edit[c.id]">
-            <input [(ngModel)]="edit[c.id].name" class="inline-input" />
-          </td>
-  
-          <!-- description -->
-          <td *ngIf="!edit[c.id]">{{ c.description }}</td>
-          <td *ngIf="edit[c.id]">
-            <input [(ngModel)]="edit[c.id].description" class="inline-input" />
-          </td>
-  
-          <td>{{ c.teacher?.user?.name || '—' }}</td>
-  
-          <!-- actions -->
-          <td>
-            <ng-container *ngIf="!edit[c.id]">
-              <button class="btn-line primary" (click)="startEdit(c)">Edit</button>
-              <button class="btn-line danger"  (click)="deleteCourse(c.id)">🗑</button>
-            </ng-container>
-  
-            <ng-container *ngIf="edit[c.id]">
-              <button class="btn-fill success"   (click)="saveEdit(c)">Save</button>
-              <button class="btn-fill secondary" (click)="cancelEdit(c.id)">Cancel</button>
-            </ng-container>
-          </td>
-  
-          <!-- enrol / unenrol -->
-          <td>
-            <div class="enrol-box">
-              <select class="mini-select" [(ngModel)]="selectedStudent[c.id]">
-                <option [ngValue]="null" disabled selected>Student</option>
-                <option *ngFor="let s of students" [ngValue]="s.id">{{ s.name }}</option>
-              </select>
-              <button class="mini-btn plus"  (click)="assignStudentToCourse(c.id)">+</button>
-              <button class="mini-btn minus" (click)="unenrollStudentFromCourse(c.id)">−</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <p *ngIf="!courses.length" class="empty">No courses available.</p>
-  </div>
-  
+  <section class="add-card">
+    <h5>Add new course</h5>
+
+    <div class="field">
+      <label for="title">Course title</label>
+      <input id="title" type="text" [(ngModel)]="newCourse.name" />
+    </div>
+
+    <div class="field">
+      <label for="descr">Description</label>
+      <textarea id="descr" rows="3"
+        [(ngModel)]="newCourse.description"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="teacher">Select teacher</label>
+      <select id="teacher" [(ngModel)]="newCourse.teacherId">
+        <option [ngValue]="null" disabled selected>Select teacher…</option>
+        <option *ngFor="let t of teachers" [ngValue]="t.id">
+          {{ t.user?.name || ('Teacher ' + t.id) }}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn-create"
+      [disabled]="!newCourse.name || !newCourse.teacherId"
+      (click)="createCourse()">
+      Create
+    </button>
+  </section>
+
+  <h3>All Courses</h3>
+
+  <table class="course-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Teacher</th>
+        <th>Actions</th>
+        <th>Assign&nbsp;Student</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of courses">
+        <td>{{ c.id }}</td>
+
+        <td *ngIf="!edit[c.id]">{{ c.name }}</td>
+        <td *ngIf="edit[c.id]">
+          <input [(ngModel)]="edit[c.id].name" class="inline-input" />
+        </td>
+
+        <td *ngIf="!edit[c.id]">{{ c.description }}</td>
+        <td *ngIf="edit[c.id]">
+          <input [(ngModel)]="edit[c.id].description" class="inline-input" />
+        </td>
+
+        <td>{{ c.teacher?.user?.name || '—' }}</td>
+
+        <td>
+          <ng-container *ngIf="!edit[c.id]">
+            <button class="btn-line primary"
+              (click)="startEdit(c)">Edit</button>
+            <button class="btn-line danger"
+              (click)="deleteCourse(c.id)">🗑</button>
+          </ng-container>
+
+          <ng-container *ngIf="edit[c.id]">
+            <button class="btn-fill success" (click)="saveEdit(c)">Save</button>
+            <button class="btn-fill secondary"
+              (click)="cancelEdit(c.id)">Cancel</button>
+          </ng-container>
+        </td>
+
+        <td>
+          <div class="enrol-box">
+            <select class="mini-select" [(ngModel)]="selectedStudent[c.id]">
+              <option [ngValue]="null" disabled selected>Student</option>
+              <option *ngFor="let s of students" [ngValue]="s.id">{{ s.name
+                }}</option>
+            </select>
+            <button class="mini-btn plus"
+              (click)="assignStudentToCourse(c.id)">+</button>
+            <button class="mini-btn minus"
+              (click)="unenrollStudentFromCourse(c.id)">−</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!courses.length" class="empty">No courses available.</p>
+</div>

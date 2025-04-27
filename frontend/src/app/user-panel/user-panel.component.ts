@@ -22,7 +22,7 @@ export class UserPanelComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
       this.userId = this.user.id;

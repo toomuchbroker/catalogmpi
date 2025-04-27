@@ -13,7 +13,7 @@ export class InfoBarComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       const userObj = JSON.parse(storedUser);
       this.userName = userObj.name || 'User';

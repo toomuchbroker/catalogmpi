@@ -1,17 +1,14 @@
 package backend.controller;
 
 import backend.dao.UserDao;
-import backend.model.User;
 import backend.model.LoginRequest;
 import backend.model.LoginResponse;
-
+import backend.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +39,10 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
+        logger.info("Fetching user by ID: {}", id);
         User user = userDao.findById(id);
         if (user != null) {
-            logger.info("Retrieved user by ID {}: {}", id, user.getEmail());
+            logger.info("User found: {}", user.getEmail());
             return ResponseEntity.ok(user);
         } else {
             logger.warn("User not found with ID: {}", id);
@@ -61,10 +59,10 @@ public class UserController {
             String password = userData.get("password");
             String role = userData.get("role");
 
-            logger.info("Attempting to create user: {} ({}) with role {}", name, email, role);
+            logger.info("Attempting to create user: {} ({}) with role: {}", name, email, role);
 
             if (name == null || email == null || password == null) {
-                logger.warn("Missing required fields for user creation");
+                logger.warn("Missing required fields for user creation.");
                 return ResponseEntity.badRequest().body(null);
             }
 
@@ -80,7 +78,7 @@ public class UserController {
             user.setRole(role);
 
             userDao.insert(user);
-            logger.info("New user created with ID: {}", user.getId());
+            logger.info("User created with ID: {}", user.getId());
 
             userDao.assignRole(user.getId(), role);
             logger.info("Assigned role {} to user ID {}", role, user.getId());
@@ -88,7 +86,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
 
         } catch (Exception e) {
-            logger.error("Error creating user", e);
+            logger.error("Error creating user: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -96,13 +94,12 @@ public class UserController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody Map<String, String> userData) {
+        logger.info("Updating user with ID: {}", id);
         User existingUser = userDao.findById(id);
         if (existingUser == null) {
             logger.warn("User not found for update: ID {}", id);
             return ResponseEntity.notFound().build();
         }
-
-        logger.info("Updating user ID: {}", id);
 
         if (userData.containsKey("name")) {
             existingUser.setName(userData.get("name"));
@@ -123,12 +120,14 @@ public class UserController {
             logger.info("Updated role for user {} to {}", existingUser.getEmail(), role);
         }
 
+        logger.info("User updated successfully with ID: {}", id);
         return ResponseEntity.ok(existingUser);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        logger.info("Deleting user with ID: {}", id);
         User user = userDao.findById(id);
         if (user == null) {
             logger.warn("Delete failed: user ID {} not found", id);
@@ -136,18 +135,18 @@ public class UserController {
         }
 
         userDao.deleteById(id);
-        logger.info("Deleted user ID {}", id);
+        logger.info("User deleted successfully with ID: {}", id);
         return ResponseEntity.ok("User deleted successfully.");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        logger.info("Login attempt for {}", request.getEmail());
+        logger.info("Login attempt for email: {}", request.getEmail());
 
         User user = userDao.findByEmailAndPassword(request.getEmail(), request.getPassword());
 
         if (user == null) {
-            logger.warn("Failed login attempt for {}", request.getEmail());
+            logger.warn("Failed login attempt for email: {}", request.getEmail());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
@@ -168,7 +167,7 @@ public class UserController {
         else if (isStudent)
             role = "student";
 
-        logger.info("Login successful: {} (role: {})", user.getEmail(), role);
+        logger.info("Login successful for {}: role = {}", user.getEmail(), role);
 
         LoginResponse response = new LoginResponse(user.getId(), user.getName(), user.getEmail(), role);
         return ResponseEntity.ok(response);

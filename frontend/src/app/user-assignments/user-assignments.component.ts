@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-// Define an interface for Assignment matching your backend model.
 export interface Assignment {
   id: number;
   title: string;
   description: string;
-  deadline: string; // Use ISO formatted date string for simplicity.
-  // Optionally, add a course property if needed.
+  deadline: string;
 }
 
 @Component({
@@ -20,12 +18,10 @@ export interface Assignment {
 })
 export class UserAssignmentsComponent implements OnInit {
   assignments: Assignment[] = [];
-  errorMessage: string = '';
-
-  // URL of your backend endpoint for assignments.
+  errorMessage = '';
   private assignmentsUrl = 'http://localhost:8080/api/assignments';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.loadAssignments();
@@ -33,13 +29,8 @@ export class UserAssignmentsComponent implements OnInit {
 
   loadAssignments(): void {
     this.http.get<Assignment[]>(this.assignmentsUrl).subscribe({
-      next: (data) => {
-        this.assignments = data;
-      },
-      error: (err) => {
-        console.error('Error fetching assignments', err);
-        this.errorMessage = 'Failed to load assignments.';
-      }
+      next: (data) => this.assignments = data,
+      error: () => this.errorMessage = 'Failed to load assignments.'
     });
   }
 }

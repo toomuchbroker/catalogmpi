@@ -10,10 +10,18 @@ import { AdminGradesComponent } from '../admin/admin-grades.component';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, AddUserComponent, UserTableComponent, InfoBarComponent, AdminAssignmentsComponent, AdminCoursesComponent, AdminGradesComponent],
+  imports: [
+    CommonModule,
+    AddUserComponent,
+    UserTableComponent,
+    InfoBarComponent,
+    AdminAssignmentsComponent,
+    AdminCoursesComponent,
+    AdminGradesComponent
+  ],
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent {
-  activeTab: string = 'users';
+  activeTab = 'users';
 }

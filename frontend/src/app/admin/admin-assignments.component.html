@@ -1,7 +1,6 @@
 <div class="admin-section">
     <h3>All Assignments</h3>
 
-    <!-- 📋 Assignment Form -->
     <form (ngSubmit)="saveAssignment()" class="assignment-form mb-4">
         <div class="mb-3">
             <input class="form-control" placeholder="Title"
@@ -17,9 +16,16 @@
                 [(ngModel)]="newAssignment.due_date" name="due_date" required>
         </div>
         <div class="mb-3">
-            <input class="form-control" placeholder="Course ID"
+            <select class="form-select"
                 [(ngModel)]="newAssignment.course_id" name="course_id" required>
+                <option [ngValue]="null" disabled selected>Select
+                    Course</option>
+                <option *ngFor="let course of courses" [value]="course.id">
+                    {{ course.name }}
+                </option>
+            </select>
         </div>
+
         <button type="submit" class="btn btn-primary">
             {{ editingAssignmentId ? '💾 Save Changes' : '➕ Add Assignment' }}
         </button>
@@ -29,7 +35,6 @@
         </button>
     </form>
 
-    <!-- 📜 Assignment Table -->
     <table class="table table-bordered table-striped"
         *ngIf="assignments.length > 0; else noAssignments">
         <thead>

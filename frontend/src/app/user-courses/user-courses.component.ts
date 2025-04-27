@@ -17,15 +17,19 @@ export interface Course {
 })
 export class UserCoursesComponent implements OnInit {
   courses: Course[] = [];
-  errorMessage: string = '';
+  errorMessage = '';
   private coursesUrl = 'http://localhost:8080/api/courses';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.loadCourses();
+  }
+
+  loadCourses(): void {
     this.http.get<Course[]>(this.coursesUrl).subscribe({
-      next: (data) => this.courses = data,
-      error: (err) => {
+      next: data => this.courses = data,
+      error: err => {
         console.error('Error fetching courses', err);
         this.errorMessage = 'Failed to load courses.';
       }

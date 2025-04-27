@@ -1,4 +1,3 @@
-/* 🌈 Admin Panel Container Style */
 .container {
     margin: 3rem auto;
     width: 90%;
@@ -13,7 +12,6 @@
     z-index: 1;
 }
 
-/* 🎉 Title */
 h2 {
     text-align: center;
     font-size: 2.5rem;
@@ -24,7 +22,6 @@ h2 {
     color: transparent;
 }
 
-/* 🔀 Admin Navigation Tabs */
 .btn-group {
     display: flex;
     justify-content: center;
@@ -57,7 +54,6 @@ h2 {
     transform: scale(1.05);
 }
 
-/* 👤 User Table and Add User Box */
 app-user-table,
 app-add-user {
     margin: auto;
@@ -67,7 +63,6 @@ app-add-user {
     width: 100%;
 }
 
-/* 🧾 Table */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -87,7 +82,6 @@ tbody td {
     text-align: center;
 }
 
-/* 📋 Form Fields */
 input.form-control,
 select.form-select {
     padding: 0.75rem 1.1rem;
@@ -107,7 +101,6 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.3);
 }
 
-/* 🚀 Add Button */
 button[type="submit"],
 button.btn-success {
     background: linear-gradient(to right, #43a047, #66bb6a);
@@ -124,7 +117,6 @@ button:hover {
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
 }
 
-/* ❌ Cancel/Delete Buttons */
 button.btn-secondary,
 button.btn-danger {
     border-radius: 30px;
@@ -134,7 +126,6 @@ button.btn-danger {
     transition: 0.2s ease;
 }
 
-/* 📱 Responsive Adjustments */
 @media (max-width: 768px) {
     .btn-group {
         flex-direction: column;

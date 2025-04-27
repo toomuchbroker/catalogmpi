@@ -43,7 +43,6 @@
         </div>
 
         <div *ngIf="!editingGradeId">
-            <!-- Assignment dropdown -->
             <div class="mb-2">
                 <select [(ngModel)]="newGrade.assignmentId" name="assignmentId"
                     class="form-select" required>
@@ -56,7 +55,6 @@
                 </select>
             </div>
 
-            <!-- Student dropdown -->
             <div class="mb-2">
                 <select [(ngModel)]="newGrade.studentId" name="studentId"
                     class="form-select" required>
@@ -76,6 +74,7 @@
         <button type="button" class="btn btn-secondary ms-2"
             (click)="resetForm()">Reset</button>
     </form>
+
     <hr>
 
     <h4>Check Student Average Grade</h4>
@@ -95,9 +94,7 @@
     </form>
 
     <div *ngIf="studentAverage !== null" class="alert alert-primary mt-3">
-        Average Grade for Student {{ getStudentNameById(studentIdForAverage)
-        }}:
+        Average Grade for Student {{ getStudentNameById(studentIdForAverage) }}:
         <strong>{{ studentAverage | number: '1.2-2' }}</strong>
     </div>
-
 </div>

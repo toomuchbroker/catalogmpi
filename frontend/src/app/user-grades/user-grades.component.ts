@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-// Define an interface for the Student portion of the Grade
 export interface User {
   id: number;
   name: string;
   email: string;
-  // password omitted for security reasons
 }
 
 export interface Student {
@@ -15,19 +13,17 @@ export interface Student {
   user: User;
 }
 
-// Define an interface for an Assignment (if available)
 export interface Assignment {
   id: number;
   title: string;
   description: string;
-  deadline: string; // ISO date string
+  deadline: string;
 }
 
-// Define an interface for Grade based on your backend model
 export interface Grade {
   id: number;
   value: number;
-  dateAssigned: string; // ISO formatted date string
+  dateAssigned: string;
   student: Student;
   assignment?: Assignment;
 }
@@ -41,9 +37,7 @@ export interface Grade {
 })
 export class UserGradesComponent implements OnInit {
   grades: Grade[] = [];
-  errorMessage: string = '';
-
-  // URL of your backend endpoint for grades
+  errorMessage = '';
   private gradesUrl = 'http://localhost:8080/api/grades';
 
   constructor(private http: HttpClient) { }
@@ -52,10 +46,9 @@ export class UserGradesComponent implements OnInit {
     this.loadGrades();
   }
 
-  // Load grades from the backend
   loadGrades(): void {
     this.http.get<Grade[]>(this.gradesUrl).subscribe({
-      next: (data) => this.grades = data,
+      next: (data) => (this.grades = data),
       error: (err) => {
         console.error('Error fetching grades', err);
         this.errorMessage = 'Failed to load grades.';
